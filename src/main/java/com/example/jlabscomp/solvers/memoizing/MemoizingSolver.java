@@ -2,6 +2,8 @@ package com.example.jlabscomp.solvers.memoizing;
 
 import com.example.jlabscomp.solvers.parser.EquationParser;
 import com.example.jlabscomp.solvers.parser.ParsedEquation;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +11,13 @@ import java.util.*;
 
 @Component
 public class MemoizingSolver {
+
+    @Data
+    @AllArgsConstructor
+    public static class Entry{
+        public long result;
+        public long group;
+    }
 
     @Autowired
     private EquationParser parser;
@@ -28,29 +37,35 @@ public class MemoizingSolver {
 
     private String solveSingle(Integer[] values, long res) {
 
-        HashMap<Long, Map<Long, Boolean>>[] positionResultLastGroup = new HashMap[values.length];
+        List<Entry>[] positionResultLastGroup = new List[values.length];
         for(int i=0; i<values.length; i++)
-            positionResultLastGroup[i] = new HashMap<>();
+            positionResultLastGroup[i] = new ArrayList<>(100);
 
         //initial value - last group and result equal first element
-        Map<Long,Boolean> groupsMap = new HashMap<>();
-        groupsMap.put(values[0].longValue(), true);
-        positionResultLastGroup[0].put(values[0].longValue(), groupsMap);
+        positionResultLastGroup[0].add(new Entry(values[0], values[0]));
 
+        long result,group;
+        int nextStep;
         for(int step = 0; step < values.length - 1; step++){
-            for(long result : positionResultLastGroup[step].keySet()){
-                for(long group : positionResultLastGroup[step].get(result).keySet()){
+            nextStep = step + 1;
+            List<Entry> entries = positionResultLastGroup[nextStep];
+            long nextValue = values[nextStep];
 
-                    //+
-                    storeResult(positionResultLastGroup[step + 1],  result + values[step + 1],  values[step + 1]);
+            for(Entry entry : positionResultLastGroup[step]){
+                result = entry.result;
+                group = entry.group;
 
-                    //-
-                    storeResult(positionResultLastGroup[step + 1],  result - values[step + 1],  - values[step + 1]);
+                //+
+                //storeResult(positionResultLastGroup[step + 1],  result + values[step + 1],  values[step + 1]);
+                entries.add(new Entry(result + nextValue, nextValue));
 
-                    //*
-                    storeResult(positionResultLastGroup[step + 1],  result - group + group * values[step + 1],  group * values[step+1]);
+                //-
+                //storeResult(positionResultLastGroup[step + 1],  result - values[step + 1],  - values[step + 1]);
+                entries.add(new Entry(result - nextValue, - nextValue));
 
-                }
+                //*
+                //storeResult(positionResultLastGroup[step + 1],  result - group + group * values[step + 1],  group * values[step+1]);
+                entries.add(new Entry(result - group + group * nextValue, group * nextValue));
             }
         }
 
@@ -67,7 +82,7 @@ public class MemoizingSolver {
             groupMapForResult = new HashMap<>(1);
             resultLastGroup.put(result, groupMapForResult);
         }
-        groupMapForResult.put(group, true);
+        groupMapForResult.put(group, Boolean.TRUE);
     }
 
 

@@ -62,7 +62,7 @@ public class PerformanceTest {
         List<Long> convertionTimes = new ArrayList<>();
 
         String[] equations = store.load(performanceStorePath);
-        for(int testCaseInd=0; testCaseInd<100; testCaseInd++) {
+        for(int testCaseInd=0; testCaseInd < 100; testCaseInd++) {
 
             long ms = System.currentTimeMillis();
             List<ParsedEquation> parsedEquations = parser.parse(equations);
@@ -73,8 +73,8 @@ public class PerformanceTest {
 
             //solving time
             ms = System.currentTimeMillis();
-            //String[] answers = solver.solve(parsedEquations);
-            String[] answers = memoizingSolver.solve(parsedEquations);
+           // String[] answers = solver.solve(parsedEquations);
+            List<String[]> answers = memoizingSolver.solve(parsedEquations);
             ms = (System.currentTimeMillis() - ms);
             System.out.println("solved: " + ms + " ms");
             if(testCaseInd>0)
@@ -82,7 +82,7 @@ public class PerformanceTest {
 
             //convertion time
             ms = System.currentTimeMillis();
-            List<String[]> answersToSubmit = utils.convertResultsToSubmittableOutput(answers);
+//            List<String[]> answersToSubmit = utils.convertResultsToSubmittableOutput(answers);
 //            String answersToSubmit = utils.convertResultsToSubmittableOutputString(answers);
             ms = (System.currentTimeMillis() - ms);
             System.out.println("converted: " + ms + " ms");
@@ -90,6 +90,7 @@ public class PerformanceTest {
                 convertionTimes.add(ms);
 
             //verifier.verify(answersToSubmit, parser.parse(equations));
+            //verifier.verify(answers, parser.parse(equations));
             PartialSolutionCache.FIRST_ROUND = false;
         }
 

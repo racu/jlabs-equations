@@ -1,10 +1,7 @@
 package com.example.jlabscomp.solvers.memoizing;
 
-import com.example.jlabscomp.solvers.parser.EquationParser;
 import com.example.jlabscomp.solvers.parser.ParsedEquation;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -12,77 +9,77 @@ import java.util.*;
 @Component
 public class MemoizingSolver {
 
-    @Data
     @AllArgsConstructor
-    public static class Entry{
+    public static class ResultEntry {
         public long result;
         public long group;
+        public int prevIndex;
+        public String operator;
     }
 
-    @Autowired
-    private EquationParser parser;
 
-
-    public String[] solve(List<ParsedEquation> equations){
-        String[] answers = new String[equations.size()];
+    public List<String[]> solve(List<ParsedEquation> equations){
+        List<String[]> answers = new ArrayList(equations.size());
         for(int eqI = 0; eqI < equations.size(); eqI++) {
             ParsedEquation eq = equations.get(eqI);
-            //LinkedList<Integer> valuesLinkedList = new LinkedList<Integer>(Arrays.asList(eq.getValues()));
-            String ans = solveSingle(eq.getValues(), eq.getRes());
-            answers[eqI] = ans;
+            String[] ans = solveSingle(eq.getValues(), eq.getRes());
+            answers.add(ans);
         }
         return answers;
     }
 
 
-    private String solveSingle(Integer[] values, long res) {
+    private String[] solveSingle(Integer[] values, long res) {
 
-        List<Entry>[] positionResultLastGroup = new List[values.length];
-        for(int i=0; i<values.length; i++)
-            positionResultLastGroup[i] = new ArrayList<>(100);
+        List<ResultEntry>[] positionResultLastGroup = new List[values.length];
+
+        //prepare sizes exactly as are required, corresponding to branching factor 3
+        int multiplier = 1;
+        for(int i=0; i < values.length; i++) {
+            positionResultLastGroup[i] = new ArrayList<>(multiplier); //pre-initialize
+            multiplier *= 3;
+        }
 
         //initial value - last group and result equal first element
-        positionResultLastGroup[0].add(new Entry(values[0], values[0]));
+        positionResultLastGroup[0].add(new ResultEntry(values[0], values[0], -1, ""));
 
-        long result,group;
-        int nextStep;
+        long result, group;
+        int nextStep, nextValue;
+        ResultEntry entry;
+
         for(int step = 0; step < values.length - 1; step++){
             nextStep = step + 1;
-            List<Entry> entries = positionResultLastGroup[nextStep];
-            long nextValue = values[nextStep];
+            List<ResultEntry> results = positionResultLastGroup[step];
+            List<ResultEntry> nextResults = positionResultLastGroup[nextStep];
+            nextValue = values[nextStep];
 
-            for(Entry entry : positionResultLastGroup[step]){
+            for(int entryInd=0; entryInd < results.size() ; entryInd++){
+                entry = results.get(entryInd);
                 result = entry.result;
                 group = entry.group;
-
                 //+
-                //storeResult(positionResultLastGroup[step + 1],  result + values[step + 1],  values[step + 1]);
-                entries.add(new Entry(result + nextValue, nextValue));
-
+                nextResults.add(new ResultEntry(result + nextValue, nextValue, entryInd,"+"));
                 //-
-                //storeResult(positionResultLastGroup[step + 1],  result - values[step + 1],  - values[step + 1]);
-                entries.add(new Entry(result - nextValue, - nextValue));
-
+                nextResults.add(new ResultEntry(result - nextValue, - nextValue, entryInd,"-"));
                 //*
-                //storeResult(positionResultLastGroup[step + 1],  result - group + group * values[step + 1],  group * values[step+1]);
-                entries.add(new Entry(result - group + group * nextValue, group * nextValue));
+                nextResults.add(new ResultEntry(result - group + group * nextValue, group * nextValue, entryInd,"*"));
             }
         }
 
-//        if(positionResultLastGroup[values.length - 1].get(res).keySet().size() == 0)
-//            throw new RuntimeException();
-        return "";
+        //find entry giving correct result in last step
+        List<ResultEntry> results = positionResultLastGroup[values.length - 1];
+        int entryInd;
+        for(entryInd=0; entryInd < results.size() ; entryInd++)
+            if(results.get(entryInd).result == res)
+                break;
 
-    }
-
-
-    private void storeResult(HashMap<Long, Map<Long, Boolean>> resultLastGroup, long result, long group){
-        Map<Long, Boolean> groupMapForResult = resultLastGroup.get(result);
-        if(groupMapForResult == null){
-            groupMapForResult = new HashMap<>(1);
-            resultLastGroup.put(result, groupMapForResult);
+        String[] answer = new String[values.length - 1];
+        for(int step = values.length - 1; step > 0 ; step--){
+            ResultEntry resultEntry = positionResultLastGroup[step].get(entryInd);
+            answer[step - 1] = resultEntry.operator;
+            entryInd = resultEntry.prevIndex;
         }
-        groupMapForResult.put(group, Boolean.TRUE);
+        return answer;
     }
 
 

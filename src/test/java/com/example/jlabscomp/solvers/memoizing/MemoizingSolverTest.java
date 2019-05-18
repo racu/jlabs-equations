@@ -9,6 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 
@@ -26,8 +29,8 @@ public class MemoizingSolverTest {
 
     @Test
     public void solve() {
-        String[] solution = solver.solve(parser.parse(new String[]{"10 ? 3 ? 2 = 4"}));
-        System.out.println(solution[0]);
+        List<String[]> solution = solver.solve(parser.parse(new String[]{"10 ? 3 ? 2 = 4"}));
+        System.out.println(Arrays.toString(solution.get(0)));
     }
 
 }

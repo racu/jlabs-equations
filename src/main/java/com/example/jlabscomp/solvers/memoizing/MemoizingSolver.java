@@ -72,7 +72,6 @@ public class MemoizingSolver {
         for(entryInd=0; entryInd < results.size() ; entryInd++)
             if(results.get(entryInd).result == res)
                 break;
-
         String[] answer = new String[values.length - 1];
         for(int step = values.length - 1; step > 0 ; step--){
             ResultEntry resultEntry = positionResultLastGroup[step].get(entryInd);
@@ -81,6 +80,5 @@ public class MemoizingSolver {
         }
         return answer;
     }
-
 
 }

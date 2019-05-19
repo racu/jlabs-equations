@@ -1,0 +1,10 @@
+com\example\jlabscomp\storage\LocalTestCasesStorageTest.class
+com\example\jlabscomp\EquationsUtilsTest.class
+com\example\jlabscomp\solvers\PrefixGroupSolverTest.class
+com\example\jlabscomp\verifier\SolutionVerifierTest.class
+com\example\jlabscomp\solvers\SimpleSolverTest.class
+com\example\jlabscomp\performance\PerformanceTest.class
+com\example\jlabscomp\solvers\parser\FastEquationParserTest.class
+com\example\jlabscomp\JlabscompApplicationTests.class
+com\example\jlabscomp\solvers\memoizing\MemoizingSolverTest.class
+com\example\jlabscomp\solvers\parser\EquationParserTest.class

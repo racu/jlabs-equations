@@ -1,6 +1,7 @@
 package com.example.jlabscomp.jlabsgateway;
 
 import com.example.jlabscomp.EquationsDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -11,9 +12,11 @@ public class JlabsGateway {
 
     String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZTQ5MDcwMC1mODlhLTRmNDktYjM0MS04MTRmNmU5MDE2NzUiLCJpc3MiOiJqLWxhYnMiLCJleHAiOjE1NjEzMzQ0MDB9.UAoDK-doFovWHy4HV4uoLWydZ3LraQ1sUwsHukRTY6g";
 
+    @Autowired
+    RestTemplate restTemplate;
 
     public EquationsDto retrieveTestCase(String env) {
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
@@ -24,17 +27,33 @@ public class JlabsGateway {
         return response.getBody();
     }
 
-    public void submitTestCaseAnswers(List<String[]> testCasesAnswers, String env) {
+    public HttpStatus submitTestCaseAnswers(List<String[]> testCasesAnswers, String env) {
 
-        RestTemplate restTemplate = new RestTemplate();
+        //RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<List<String[]>> entity = new HttpEntity<>(testCasesAnswers, headers);
 
-        String fooResourceUrl = "http://go-to-devoxx-with.events-jlabs.pl/game/"+env;
-        ResponseEntity<String> response = restTemplate.exchange(fooResourceUrl, HttpMethod.POST, entity, String.class);
-        System.out.println(response.getStatusCode());
+        String url = "http://go-to-devoxx-with.events-jlabs.pl/game/"+env;
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        return response.getStatusCode();
+
+    }
+
+    public HttpStatus submitTestCaseAnswers(String testCasesAnswers, String env) {
+
+        //RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>(testCasesAnswers, headers);
+
+        String url = "http://go-to-devoxx-with.events-jlabs.pl/game/"+env;
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        //System.out.println(response.getStatusCode());
+        return response.getStatusCode();
     }
 }

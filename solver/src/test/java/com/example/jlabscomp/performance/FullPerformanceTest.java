@@ -53,7 +53,7 @@ public class FullPerformanceTest {
 
     @Test
     @SneakyThrows
-    public void testPerformance(){
+    public void testPerformanceWithLocalServer(){
         List<Long> retrievingTimes = new ArrayList<>();
         List<Long> parsingTimes = new ArrayList<>();
         List<Long> solutionTimes = new ArrayList<>();
@@ -87,16 +87,19 @@ public class FullPerformanceTest {
             if(testCaseInd>0)
                 solutionTimes.add(ms);
 
-
-//            utils.convertResultsToSubmittableOutputString(answers);
-//            ObjectMapper om = new ObjectMapper();
-//            String s = om.writeValueAsString(answers);
+            //convertion
+            ms = System.currentTimeMillis();
+            //String s = utils.convertResultsToSubmittableOutputString(answers);
+            ms = (System.currentTimeMillis() - ms);
+            System.out.println("converted: " + ms + " ms");
+            if(testCaseInd>0)
+                convertionTimes.add(ms);
 
 
             //submit answers
             ms = System.currentTimeMillis();
             localServer.submitTestCaseAnswers(answers);
-            //localServer.submitTestCaseAnswers(s);
+           // localServer.submitTestCaseAnswers(s);
             ms = (System.currentTimeMillis() - ms);
             System.out.println("submitted: " + ms + " ms");
             if(testCaseInd>0)
@@ -111,11 +114,14 @@ public class FullPerformanceTest {
         System.out.println("retrieving times p80: " + percentile(retrievingTimes, 80));
         System.out.println("parsing times p80: " + percentile(parsingTimes, 80));
         System.out.println("solution times p80: " + percentile(solutionTimes, 80));
+        System.out.println("converted times p80: " + percentile(convertionTimes, 80));
         System.out.println("submitted times p80: " + percentile(submittedTimes, 80));
         //System.out.println("convertion times p80: " + percentile(convertionTimes, 80));
-        //parsing 24
-        //solutiontimes p95: 145
-        //convertionTimes p95: 13
+
+//        retrieving times p80: 25
+//        parsing times p80: 14
+//        solution times p80: 46
+//        submitted times p80: 30
     }
 
 

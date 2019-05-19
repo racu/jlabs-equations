@@ -27,10 +27,13 @@ public class CompetitionServerController {
     EquationsDto equationsDto;
     List<ParsedEquation> parsedEquations;
 
+    // small cases set "E:\\utils\\playground\\algos\\jlabsedovx2\\cases\\performance1\\case_1583893777360157009"
+    String caseFilePath = "E:\\utils\\playground\\algos\\jlabsedovx2\\cases\\performance1\\case_1353454811441596726";
+
     @RequestMapping(value= "getEquations")
     public EquationsDto getEquationsToSolve(){
         if(equationsDto == null) {
-            String[] equations = storage.load("E:\\utils\\playground\\algos\\jlabsedovx2\\cases\\performance1\\case_1583893777360157009");
+            String[] equations = storage.load(caseFilePath);
             equationsDto = new EquationsDto();
             equationsDto.equations = equations;
             parsedEquations = parser.parse(equationsDto.equations);

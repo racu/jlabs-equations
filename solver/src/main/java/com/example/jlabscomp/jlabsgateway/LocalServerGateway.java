@@ -1,10 +1,13 @@
 package com.example.jlabscomp.jlabsgateway;
 
 import com.example.jlabscomp.EquationsDto;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Component
@@ -12,39 +15,45 @@ public class LocalServerGateway {
 
     String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlZTQ5MDcwMC1mODlhLTRmNDktYjM0MS04MTRmNmU5MDE2NzUiLCJpc3MiOiJqLWxhYnMiLCJleHAiOjE1NjEzMzQ0MDB9.UAoDK-doFovWHy4HV4uoLWydZ3LraQ1sUwsHukRTY6g";
 
+    @Autowired
+    RestTemplate restTemplate;
+
+
+//    HttpHeaders getEquationsHeaders;
+//    HttpHeaders submitAnswersHeaders;
+//    @PostConstruct
+//    public void init(){
+//        getEquationsHeaders = new HttpHeaders();
+//        getEquationsHeaders.setBearerAuth(token);
+//
+//        submitAnswersHeaders = new HttpHeaders();
+//        submitAnswersHeaders.setBearerAuth(token);
+//        submitAnswersHeaders.setContentType(MediaType.APPLICATION_JSON);
+//    }
 
     public EquationsDto retrieveTestCase() {
-        RestTemplate restTemplate = new RestTemplate();
-
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
-        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-
-        String fooResourceUrl = "http://localhost:8080/getEquations";
-        ResponseEntity<EquationsDto> response = restTemplate.exchange(fooResourceUrl, HttpMethod.GET, entity, EquationsDto.class);
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        ResponseEntity<EquationsDto> response = restTemplate.exchange("http://localhost:8080/getEquations", HttpMethod.GET, entity, EquationsDto.class);
         return response.getBody();
     }
 
-    public void submitTestCaseAnswers(List<String[]> testCasesAnswers) {
-        RestTemplate restTemplate = new RestTemplate();
+    public HttpStatus submitTestCaseAnswers(List<String[]> testCasesAnswers) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<List<String[]>> entity = new HttpEntity<>(testCasesAnswers, headers);
-        String fooResourceUrl = "http://localhost:8080/submitSolutions";
-        ResponseEntity<String> response = restTemplate.exchange(fooResourceUrl, HttpMethod.POST, entity, String.class);
-        System.out.println(response.getStatusCode());
+        ResponseEntity<String> response = restTemplate.exchange( "http://localhost:8080/submitSolutions", HttpMethod.POST, entity, String.class);
+        return response.getStatusCode();
     }
 
-    public void submitTestCaseAnswers(String testCasesAnswers) {
-        RestTemplate restTemplate = new RestTemplate();
+    public HttpStatus submitTestCaseAnswers(String testCasesAnswers) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(testCasesAnswers, headers);
-
-        String fooResourceUrl = "http://localhost:8080/submitSolutions";
-        ResponseEntity<String> response = restTemplate.exchange(fooResourceUrl, HttpMethod.POST, entity, String.class);
-        System.out.println(response.getStatusCode());
+        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8080/submitSolutions", HttpMethod.POST, entity, String.class);
+        return response.getStatusCode();
     }
 }

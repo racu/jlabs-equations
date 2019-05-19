@@ -45,5 +45,30 @@ public class EquationsUtils {
     }
 
 
+    public String convertResultsToSubmittableOutputString(List<String[]> results){
+        StringBuilder outputText = new StringBuilder(1000000);
+        outputText.append("[");
+        String[] answer;
+
+        for(int ansI=0; ansI<results.size(); ansI++){
+            answer = results.get(ansI);
+
+            outputText.append("[\"");
+            for(int i=0; i<answer.length-1; i++)
+                outputText.append(answer[i]+"\",\"");
+            outputText.append(answer[answer.length-1]+"\"]");
+
+//            StringJoiner joiner = new StringJoiner(",", "[", "]");
+//            for(int i=0; i<answer.length; i++)
+//                joiner.add("\""+answer[i]+"\"");
+//            outputText.append(joiner.toString());
+
+            if(ansI < results.size() - 1)
+                outputText.append(",");
+        }
+        outputText.append("]");
+        return outputText.toString();
+    }
+
     //convert to submitable string
 }

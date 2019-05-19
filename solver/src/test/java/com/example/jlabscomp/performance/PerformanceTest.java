@@ -31,13 +31,13 @@ import java.util.stream.Stream;
 @ActiveProfiles("test")
 public class PerformanceTest {
 
-    String performanceStorePath = "E:\\utils\\playground\\algos\\jlabsedovx2\\cases\\performance1\\case_1583893777360157009";
+    String performanceStorePath = "E:\\utils\\playground\\algos\\jlabsedovx2\\cases\\performance1\\case_1353454811441596726";
 
     @Autowired
     LocalTestCasesStorage store;
 
     @Autowired
-    PrefixGroupSolver solver;
+    MemoizingSolver solver;
 
     @Autowired
     SolutionVerifier verifier;
@@ -51,8 +51,6 @@ public class PerformanceTest {
     @Autowired
     EquationsUtils utils;
 
-    @Autowired
-    MemoizingSolver memoizingSolver;
 
 
     @Test
@@ -74,7 +72,7 @@ public class PerformanceTest {
             //solving time
             ms = System.currentTimeMillis();
            // String[] answers = solver.solve(parsedEquations);
-            List<String[]> answers = memoizingSolver.solve(parsedEquations);
+            List<String[]> answers = solver.solve(parsedEquations);
             ms = (System.currentTimeMillis() - ms);
             System.out.println("solved: " + ms + " ms");
             if(testCaseInd>0)
@@ -83,7 +81,7 @@ public class PerformanceTest {
             //convertion time
             ms = System.currentTimeMillis();
 //            List<String[]> answersToSubmit = utils.convertResultsToSubmittableOutput(answers);
-//            String answersToSubmit = utils.convertResultsToSubmittableOutputString(answers);
+            String answersToSubmit = utils.convertResultsToSubmittableOutputString(answers);
             ms = (System.currentTimeMillis() - ms);
             System.out.println("converted: " + ms + " ms");
             if(testCaseInd>0)
@@ -91,7 +89,6 @@ public class PerformanceTest {
 
             //verifier.verify(answersToSubmit, parser.parse(equations));
             //verifier.verify(answers, parser.parse(equations));
-            PartialSolutionCache.FIRST_ROUND = false;
         }
 
         System.out.println("parsing times p80: " + percentile(parsingTimes, 80));
@@ -160,28 +157,6 @@ public class PerformanceTest {
 
 
 
-
-    @SneakyThrows
-    @Test
-    public void collectFilesFromDir(){
-
-        String dir = "E:\\utils\\playground\\algos\\jlabsedovx2\\cases";
-
-        List<String> allEquations = new ArrayList<>();
-
-        try (Stream<Path> walk = Files.walk(Paths.get(dir))) {
-            List<String> files = walk.filter(Files::isRegularFile)
-                    .map(x -> x.toString()).collect(Collectors.toList());
-
-            for(String fPath : files) {
-                String[] equations = store.load(fPath);
-                allEquations.addAll(Arrays.asList(equations));
-            }
-        }
-        store.store(allEquations.toArray(new String[0]));
-
-
-    }
 
 
 

@@ -1,17 +1,11 @@
 package com.example.jlabscomp.performance;
 
-import com.example.jlabscomp.EquationsDto;
 import com.example.jlabscomp.EquationsUtils;
 import com.example.jlabscomp.jlabsgateway.LocalServerGateway;
 import com.example.jlabscomp.solvers.memoizing.MemoizingSolver;
-import com.example.jlabscomp.solvers.parser.EquationParser;
 import com.example.jlabscomp.solvers.parser.FastEquationParser;
 import com.example.jlabscomp.solvers.parser.ParsedEquation;
-import com.example.jlabscomp.solvers.recursiveprefixgroup.PrefixGroupSolver;
-import com.example.jlabscomp.solvers.recursiveprefixgroup.cache.PartialSolutionCache;
-import com.example.jlabscomp.storage.LocalTestCasesStorage;
 import com.example.jlabscomp.verifier.SolutionVerifier;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,15 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

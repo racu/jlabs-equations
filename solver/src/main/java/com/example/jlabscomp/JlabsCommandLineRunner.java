@@ -2,7 +2,7 @@ package com.example.jlabscomp;
 
 import com.example.jlabscomp.jlabsgateway.JlabsGateway;
 import com.example.jlabscomp.solvers.parser.ParsedEquation;
-import com.example.jlabscomp.solvers.recursiveprefixgroup.PrefixGroupSolver;
+import com.example.jlabscomp.solvers.recursive.RecursiveDfsSolver;
 import com.example.jlabscomp.solvers.parser.EquationParser;
 import com.example.jlabscomp.storage.LocalTestCasesStorage;
 import com.example.jlabscomp.verifier.SolutionVerifier;
@@ -21,7 +21,7 @@ public class JlabsCommandLineRunner implements CommandLineRunner {
     JlabsGateway jlabsGateway;
 
     @Autowired
-    PrefixGroupSolver solver;
+    RecursiveDfsSolver solver;
 
     @Autowired
     LocalTestCasesStorage storage;

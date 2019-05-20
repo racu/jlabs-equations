@@ -1,7 +1,7 @@
-package com.example.jlabscomp.solvers.recursiveprefixgroup;
+package com.example.jlabscomp.solvers.recursive;
 
-import com.example.jlabscomp.solvers.recursiveprefixgroup.cache.MultiValueKey;
-import com.example.jlabscomp.solvers.recursiveprefixgroup.cache.PartialSolutionCache;
+import com.example.jlabscomp.solvers.recursive.cache.MultiValueKey;
+import com.example.jlabscomp.solvers.recursive.cache.PartialSolutionCache;
 import com.example.jlabscomp.solvers.parser.EquationParser;
 import com.example.jlabscomp.solvers.parser.ParsedEquation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component
-public class PrefixGroupSolver {
+public class RecursiveDfsSolver {
 
     @Autowired
     private EquationParser parser;

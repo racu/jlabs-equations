@@ -47,7 +47,7 @@ public class EquationsUtils {
 
     public String convertListResultsToSubmittableOutputString(List<String[]> results){
         StringBuilder outputText = new StringBuilder(1000000);
-        outputText.append("[");
+        //outputText.append("[");
         String[] answer;
 
         for(int ansI=0; ansI<results.size(); ansI++){
@@ -66,7 +66,7 @@ public class EquationsUtils {
             if(ansI < results.size() - 1)
                 outputText.append(",");
         }
-        outputText.append("]");
+        //outputText.append("]");
         return outputText.toString();
     }
 

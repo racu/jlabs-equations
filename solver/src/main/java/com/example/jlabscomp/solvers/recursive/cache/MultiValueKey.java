@@ -1,4 +1,4 @@
-package com.example.jlabscomp.solvers.recursiveprefixgroup.cache;
+package com.example.jlabscomp.solvers.recursive.cache;
 
 import java.util.Arrays;
 

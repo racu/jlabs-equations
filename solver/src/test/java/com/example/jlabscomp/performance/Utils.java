@@ -12,6 +12,7 @@ import com.example.jlabscomp.solvers.recursiveprefixgroup.PrefixGroupSolver;
 import com.example.jlabscomp.storage.LocalTestCasesStorage;
 import com.example.jlabscomp.verifier.SolutionVerifier;
 import lombok.SneakyThrows;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,7 @@ public class Utils {
 
 
     @Test
+    @Ignore
     public void collectSamplesFromJlabs(){
         String env = "test";
 
@@ -72,7 +74,7 @@ public class Utils {
             List<String[]> answers = solver.solve(parsedEq);
 
             //convert answers to string
-            String answersToSubmit = eqUtils.convertResultsToSubmittableOutputString(answers);
+            String answersToSubmit = eqUtils.convertListResultsToSubmittableOutputString(answers);
 
             //submit
             HttpStatus httpStatus = jlabsGateway.submitTestCaseAnswers(answersToSubmit, env);
@@ -91,6 +93,7 @@ public class Utils {
 
     @SneakyThrows
     @Test
+    @Ignore
     public void collectFilesFromDir(){
 
         String dir = "E:\\utils\\playground\\algos\\jlabsedovx2\\cases";

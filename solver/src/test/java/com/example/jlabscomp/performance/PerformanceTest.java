@@ -10,6 +10,7 @@ import com.example.jlabscomp.solvers.parser.ParsedEquation;
 import com.example.jlabscomp.storage.LocalTestCasesStorage;
 import com.example.jlabscomp.verifier.SolutionVerifier;
 import lombok.SneakyThrows;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ public class PerformanceTest {
 
 
     @Test
+    @Ignore
     public void testPerformance(){
         List<Long> parsingTimes = new ArrayList<>();
         List<Long> solutionTimes = new ArrayList<>();
@@ -81,7 +83,7 @@ public class PerformanceTest {
             //convertion time
             ms = System.currentTimeMillis();
 //            List<String[]> answersToSubmit = utils.convertResultsToSubmittableOutput(answers);
-            String answersToSubmit = utils.convertResultsToSubmittableOutputString(answers);
+            String answersToSubmit = utils.convertListResultsToSubmittableOutputString(answers);
             ms = (System.currentTimeMillis() - ms);
             System.out.println("converted: " + ms + " ms");
             if(testCaseInd>0)
@@ -101,6 +103,7 @@ public class PerformanceTest {
 
 
     @Test
+    @Ignore
     public void testPerformanceConvertOutput(){
         List<String> results = new ArrayList<>(100000);
         for(int i=0;i<100000;i++)
@@ -119,6 +122,7 @@ public class PerformanceTest {
 
 
     @Test
+    @Ignore
     public void testPerformanceParsingInput() {
         List<Long> parsingTimes = new ArrayList<>();
         List<Long> parsingTimes2 = new ArrayList<>();

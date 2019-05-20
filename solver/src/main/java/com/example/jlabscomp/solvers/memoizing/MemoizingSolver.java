@@ -20,16 +20,26 @@ public class MemoizingSolver {
 
     public List<String[]> solve(List<ParsedEquation> equations){
         List<String[]> answers = new ArrayList(equations.size());
+        ParsedEquation eq;
         for(int eqI = 0; eqI < equations.size(); eqI++) {
-            ParsedEquation eq = equations.get(eqI);
-            String[] ans = solveSingle(eq.getValues(), eq.getRes());
+            eq = equations.get(eqI);
+            long[] values = asLongs(eq);
+            String[] ans = solveSingle(values, eq.getRes());
             answers.add(ans);
         }
         return answers;
     }
 
+    private long[] asLongs(ParsedEquation eq) {
+        Integer[] origValues = eq.getValues();
+        long[] values = new long[origValues.length];
+        for(int i = 0; i< origValues.length; i++)
+            values[i] = origValues[i];
+        return values;
+    }
 
-    private String[] solveSingle(Integer[] values, long res) {
+
+    private String[] solveSingle(long[] values, long res) {
 
         List<ResultEntry>[] positionResultLastGroup = new List[values.length];
 
@@ -43,8 +53,8 @@ public class MemoizingSolver {
         //initial value - last group and result equal first element
         positionResultLastGroup[0].add(new ResultEntry(values[0], values[0], -1, ""));
 
-        long result, group;
-        int nextStep, nextValue;
+        long result, group,nextValue;
+        int nextStep;
         ResultEntry entry;
 
         for(int step = 0; step < values.length - 1; step++){

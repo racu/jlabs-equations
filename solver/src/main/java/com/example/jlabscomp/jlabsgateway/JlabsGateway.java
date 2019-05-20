@@ -27,7 +27,7 @@ public class JlabsGateway {
         return response.getBody();
     }
 
-    public HttpStatus submitTestCaseAnswers(List<String[]> testCasesAnswers, String env) {
+    public HttpStatus submitListTestCaseAnswers(List<String[]> testCasesAnswers, String env) {
 
         //RestTemplate restTemplate = new RestTemplate();
 

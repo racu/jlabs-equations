@@ -46,6 +46,6 @@ public class CompetitionServerController {
     @RequestMapping(value= "submitSolutions")
     public void submitSolutions(@RequestBody List<String[]> solutions){
         System.out.println("submitted "+solutions.size()+" solutions");
-        //verifier.verify(solutions, parsedEquations);
+       // verifier.verify(solutions, parsedEquations);
     }
 }

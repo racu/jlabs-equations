@@ -42,7 +42,7 @@ public class FastEquationParser {
         while(pos < terminatingPos) {
             while (pos < terminatingPos && eqText.charAt(pos) != ' ')
                 pos++;
-            values.add(Integer.parseInt(eqText.substring(startPos, pos)));
+            values.add(Integer.valueOf(eqText.substring(startPos, pos)));
             startPos = pos + 3;
             pos = startPos;
         }

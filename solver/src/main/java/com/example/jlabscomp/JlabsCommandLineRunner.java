@@ -63,7 +63,7 @@ public class JlabsCommandLineRunner implements CommandLineRunner {
 
             //verifier.verify(answersToSubmit, parser.parse(testCase.equations));
 
-            jlabsGateway.submitTestCaseAnswers(answersToSubmit, env);
+            jlabsGateway.submitListTestCaseAnswers(answersToSubmit, env);
 
         }
 

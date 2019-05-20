@@ -45,7 +45,7 @@ public class EquationsUtils {
     }
 
 
-    public String convertResultsToSubmittableOutputString(List<String[]> results){
+    public String convertListResultsToSubmittableOutputString(List<String[]> results){
         StringBuilder outputText = new StringBuilder(1000000);
         outputText.append("[");
         String[] answer;

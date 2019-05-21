@@ -33,7 +33,7 @@ public class DiagnosticMetrics {
     public void printPercentiles(String metricName, int percentile){
         List<Long> values = metrics.get(metricName);
         ArrayList<Long> clonedLongs = new ArrayList<>(values);
-        System.out.println(metricName+": "+percentile(clonedLongs, percentile));
+        System.out.println(metricName+": "+percentile(clonedLongs, percentile)+" ms");
     }
 
     public long percentile(List<Long> times, double Percentile) {

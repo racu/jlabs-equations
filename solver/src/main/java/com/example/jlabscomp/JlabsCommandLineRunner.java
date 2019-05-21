@@ -91,14 +91,13 @@ public class JlabsCommandLineRunner implements CommandLineRunner {
         String env = "final";
         DiagnosticMetrics metrics = new DiagnosticMetrics();
 
-        for(int testCaseInd=0; testCaseInd< 1; testCaseInd++) {
-            long msTotal = metrics.startTimer();
-            EquationsDto testCase = jlabsGateway.retrieveTestCase(env);
-            List<String[]> answers = eqProcessor.solveToListConcurrent(testCase.equations, metrics);
-            String response = jlabsGateway.submitListTestCaseAnswers(answers, env);
-            metrics.saveElapsedForMetric("total", msTotal);
-            System.out.println(response);
-        }
+        long msTotal = metrics.startTimer();
+        EquationsDto testCase = jlabsGateway.retrieveTestCase(env);
+        List<String[]> answers = eqProcessor.solveToListConcurrent(testCase.equations, metrics);
+        String response = jlabsGateway.submitListTestCaseAnswers(answers, env);
+        metrics.saveElapsedForMetric("total", msTotal);
+        System.out.println(response);
+
         metrics.printPercentiles(60);
         System.out.println();
     }

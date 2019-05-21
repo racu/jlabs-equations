@@ -32,6 +32,9 @@ public class FullPerformanceTest {
     @Autowired
     DefaultEquationsProcessor eqProc;
 
+    @Autowired
+    FastEquationParser parser;
+
 
     @Test
     @Ignore

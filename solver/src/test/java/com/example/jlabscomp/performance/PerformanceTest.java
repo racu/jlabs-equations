@@ -61,8 +61,8 @@ public class PerformanceTest {
             long msTotal =  metrics.startTimer();
 
             //solve
-            List<String[]> answers = eqProc.solveToListConcurrent(equations, metrics);
-            //List<String[]> answers = eqProc.solveToList(equations, metrics);
+            //List<String[]> answers = eqProc.solveToListConcurrent(equations, metrics);
+            List<String[]> answers = eqProc.solveToList(equations, metrics);
 
             msTotal = metrics.saveElapsedForMetric("total", msTotal);
             System.out.println("total: " + msTotal + " ms");

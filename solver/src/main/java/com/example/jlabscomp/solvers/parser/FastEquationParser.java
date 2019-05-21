@@ -53,11 +53,17 @@ public class FastEquationParser {
 
     public List<ParsedEquation> parse(String[] equations){
         List<ParsedEquation> parsedEquations = new ArrayList<>();
-        for(int eqI = 0; eqI < equations.length; eqI++) {
-            ParsedEquation eq = parse(equations[eqI]);
-            parsedEquations.add(eq);
+        int eqI = 0;
+        try {
+            for (eqI = 0; eqI < equations.length; eqI++) {
+                ParsedEquation eq = parse(equations[eqI]);
+                parsedEquations.add(eq);
+            }
+            return parsedEquations;
+        }catch(Exception ex){
+            System.out.println("error in parsing equation "+eqI);
+            throw new RuntimeException("Error in parsing");
         }
-        return parsedEquations;
     }
 
 

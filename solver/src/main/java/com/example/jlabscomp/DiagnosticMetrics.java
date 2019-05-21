@@ -39,6 +39,11 @@ public class DiagnosticMetrics {
     public long percentile(List<Long> times, double Percentile) {
         times.sort(Long::compare);
         int Index = (int)Math.ceil(((double)Percentile / (double)100) * (double)times.size());
-        return times.get(Index-1);
+        int targetIndex = Index-1;
+        if(targetIndex < 0)
+            targetIndex = 0;
+        if(targetIndex >= times.size())
+            targetIndex = times.size() -1;
+        return times.get(targetIndex);
     }
 }

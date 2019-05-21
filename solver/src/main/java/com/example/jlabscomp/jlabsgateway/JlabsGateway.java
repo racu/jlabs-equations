@@ -27,7 +27,7 @@ public class JlabsGateway {
         return response.getBody();
     }
 
-    public HttpStatus submitListTestCaseAnswers(List<String[]> testCasesAnswers, String env) {
+    public String submitListTestCaseAnswers(List<String[]> testCasesAnswers, String env) {
 
         //RestTemplate restTemplate = new RestTemplate();
 
@@ -38,7 +38,7 @@ public class JlabsGateway {
 
         String url = "http://go-to-devoxx-with.events-jlabs.pl/game/"+env;
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-        return response.getStatusCode();
+        return response.getBody();
 
     }
 

@@ -5,7 +5,6 @@ import com.example.jlabscomp.solvers.parser.ParsedEquation;
 import com.example.jlabscomp.storage.LocalTestCasesStorage;
 import com.example.jlabscomp.verifier.SolutionVerifier;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +26,11 @@ public class CompetitionServerController {
     EquationsDto equationsDto;
     List<ParsedEquation> parsedEquations;
 
-    // small cases set "E:\\utils\\playground\\algos\\jlabsedovx2\\cases\\performance1\\case_1583893777360157009"
+
     String caseFilePath = "E:\\utils\\playground\\algos\\jlabsedovx2\\cases\\performance1\\case_1353454811441596726";
+
+    //String caseFilePath167MB = "E:\\utils\\playground\\algos\\jlabsedovx2\\cases\\huge\\case_7919375993971561685";
+
 
     @RequestMapping(value= "getEquations")
     public EquationsDto getEquationsToSolve(){

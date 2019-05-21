@@ -184,6 +184,7 @@ public class DefaultEquationsProcessor {
     }
 
 
-
-
+    public void shutdown() {
+        executor.shutdown();
+    }
 }

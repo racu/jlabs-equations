@@ -1,6 +1,8 @@
 package com.example.jlabscomp.performance;
 
+import com.example.jlabscomp.DiagnosticMetrics;
 import com.example.jlabscomp.EquationsUtils;
+import com.example.jlabscomp.equationsprocessor.DefaultEquationsProcessor;
 import com.example.jlabscomp.solvers.memoizing.MemoizingSolver;
 import com.example.jlabscomp.solvers.parser.EquationParser;
 import com.example.jlabscomp.solvers.parser.FastEquationParser;
@@ -28,11 +30,14 @@ public class PerformanceTest {
     @Autowired
     LocalTestCasesStorage store;
 
-    @Autowired
-    MemoizingSolver solver;
+//    @Autowired
+//    MemoizingSolver solver;
 
     @Autowired
     SolutionVerifier verifier;
+
+    @Autowired
+    DefaultEquationsProcessor eqProc;
 
     @Autowired
     EquationParser parser;
@@ -48,45 +53,27 @@ public class PerformanceTest {
     @Test
     @Ignore
     public void testPerformance(){
-        List<Long> parsingTimes = new ArrayList<>();
-        List<Long> solutionTimes = new ArrayList<>();
-        List<Long> convertionTimes = new ArrayList<>();
+        DiagnosticMetrics metrics = new DiagnosticMetrics();
 
         String[] equations = store.load(performanceStorePath);
         for(int testCaseInd=0; testCaseInd < 100; testCaseInd++) {
 
-            long ms = System.currentTimeMillis();
-            List<ParsedEquation> parsedEquations = parser.parse(equations);
-            ms = (System.currentTimeMillis() - ms);
-            System.out.println("parsing: " + ms + " ms");
-            if(testCaseInd>0)
-                parsingTimes.add(ms);
+            long msTotal =  metrics.startTimer();
 
-            //solving time
-            ms = System.currentTimeMillis();
-           // String[] answers = solver.solve(parsedEquations);
-            List<String[]> answers = solver.solve(parsedEquations);
-            ms = (System.currentTimeMillis() - ms);
-            System.out.println("solved: " + ms + " ms");
-            if(testCaseInd>0)
-                solutionTimes.add(ms);
+            //solve
+            List<String[]> answers = eqProc.solveToListConcurrent(equations, metrics);
+            //String answers = eqProc.solveToTextConcurrent(equations, metrics);
+            //List<String[]> answers = eqProc.solveToList(equations, metrics);
 
-            //convertion time
-            ms = System.currentTimeMillis();
-//            List<String[]> answersToSubmit = utils.convertResultsToSubmittableOutput(answers);
-            String answersToSubmit = utils.convertListResultsToSubmittableOutputString(answers);
-            ms = (System.currentTimeMillis() - ms);
-            System.out.println("converted: " + ms + " ms");
-            if(testCaseInd>0)
-                convertionTimes.add(ms);
+            msTotal = metrics.saveElapsedForMetric("total", msTotal);
+            System.out.println("total: " + msTotal + " ms");
 
             //verifier.verify(answersToSubmit, parser.parse(equations));
             //verifier.verify(answers, parser.parse(equations));
         }
 
-        System.out.println("parsing times p80: " + percentile(parsingTimes, 80));
-        System.out.println("solution times p80: " + percentile(solutionTimes, 80));
-        System.out.println("convertion times p80: " + percentile(convertionTimes, 80));
+        System.out.println();
+        metrics.printPercentiles(80);
         //parsing 24
         //solutiontimes p95: 145
         //convertionTimes p95: 13

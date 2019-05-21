@@ -41,12 +41,12 @@ public class FastEquationParserTest {
 
     @Test
     public void testParsing5BiggerValues(){
-        ParsedEquation parsed = parser.parse("16 * 25 * 33 * 47= 5");
+        ParsedEquation parsed = parser.parse("16 * 25 * 33 * 47 = 5");
         Assert.assertTrue(parsed.res == 5);
         Assert.assertTrue(parsed.values.length == 4);
-        Assert.assertTrue(parsed.values[0] == 1);
-        Assert.assertTrue(parsed.values[1] == 2);
-        Assert.assertTrue(parsed.values[2] == 3);
-        Assert.assertTrue(parsed.values[3] == 4);
+        Assert.assertTrue(parsed.values[0] == 16);
+        Assert.assertTrue(parsed.values[1] == 25);
+        Assert.assertTrue(parsed.values[2] == 33);
+        Assert.assertTrue(parsed.values[3] == 47);
     }
 }

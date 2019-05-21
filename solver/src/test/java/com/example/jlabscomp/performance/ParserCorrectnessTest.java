@@ -5,6 +5,7 @@ import com.example.jlabscomp.solvers.parser.FastEquationParser;
 import com.example.jlabscomp.solvers.parser.ParsedEquation;
 import com.example.jlabscomp.storage.LocalTestCasesStorage;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class ParserCorrectnessTest {
     FastEquationParser parser;
 
     @Test
-    //@Ignore
+    @Ignore
     public void testCorrectness(){
         String[] equations = store.load(performanceStorePath);
         List<ParsedEquation> equations1 = oldParser.parse(equations);

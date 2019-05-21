@@ -62,7 +62,7 @@ public class JlabsCommandLineRunner implements CommandLineRunner {
         String env = "test";
         DiagnosticMetrics metrics = new DiagnosticMetrics();
 
-        for(int testCaseInd=0; testCaseInd< 1; testCaseInd++) {
+        for(int testCaseInd=0; testCaseInd< 10; testCaseInd++) {
 
             long msTotal = metrics.startTimer();
             long ms = metrics.startTimer();

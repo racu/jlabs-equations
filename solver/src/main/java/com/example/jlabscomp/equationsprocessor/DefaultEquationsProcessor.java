@@ -75,7 +75,7 @@ public class DefaultEquationsProcessor {
         for(int i=0; i<threadsCount; i++) {
             List<String> equationsPart = partitionedEquations.get(i);
             futures[i] = executor.submit( () -> {
-                List<ParsedEquation> parsedEquations = parser.parse(equationsPart.toArray(new String[0]));
+                List<ParsedEquation> parsedEquations = parser.parse(equationsPart);
                 List<String[]> answersPart = solver.solve(parsedEquations);
                 return answersPart;
             });
@@ -102,18 +102,17 @@ public class DefaultEquationsProcessor {
 
         //parse and solve
         startTime = metrics.startTimer();
-        String answers = processWithThreadsToAnswerText(equations, threadsCount, partitionedEquations);
+        String answers = processWithThreadsToAnswerText(threadsCount, partitionedEquations);
         metrics.saveElapsedForMetric("parseAndSolve", startTime);
         return answers;
     }
 
-    private String processWithThreadsToAnswerText(String[] equations, int threadsCount, List<List<String>> partitionedEquations) throws InterruptedException, java.util.concurrent.ExecutionException {
-        List<String[]> answers = new ArrayList<>(equations.length);
+    private String processWithThreadsToAnswerText(int threadsCount, List<List<String>> partitionedEquations) throws InterruptedException, java.util.concurrent.ExecutionException {
         Future[] futures = new Future[threadsCount];
         for(int i=0; i<threadsCount; i++) {
             List<String> equationsPart = partitionedEquations.get(i);
             futures[i] = executor.submit( () -> {
-                List<ParsedEquation> parsedEquations = parser.parse(equationsPart.toArray(new String[0]));
+                List<ParsedEquation> parsedEquations = parser.parse(equationsPart);
                 List<String[]> answersPart = solver.solve(parsedEquations);
                 String answerJson = utils.convertListResultsToSubmittableOutputString(answersPart);
                 return answerJson;

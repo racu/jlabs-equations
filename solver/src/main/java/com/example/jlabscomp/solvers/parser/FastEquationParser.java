@@ -11,17 +11,13 @@ import java.util.StringTokenizer;
 public class FastEquationParser {
 
 
-//    public ParsedEquation parse(String eqText){
-//        List<Long> numbers = new ArrayList<>();
-//        StringTokenizer tok = new StringTokenizer(eqText," ?=");
-//        while(tok.hasMoreTokens())
-//            numbers.add(Long.parseLong(tok.nextToken()));
-//        Integer[] values = new Integer[numbers.size() - 1];
-//        for(int valInd = 0; valInd < numbers.size() - 1; valInd ++)
-//            values[valInd] = numbers.get(valInd).intValue();
-//        long res = numbers.get(numbers.size() - 1);
-//        return new ParsedEquation(values, res);
-//    }
+    //retrieve number without creating substring
+    public static int getPositiveNumber(String data, int start, int endExc){
+        int number = 0;
+        for (int i = start; i <endExc; i++)
+           number = (number * 10) + (data.charAt(i) - 48);
+        return number;
+    }
 
     public ParsedEquation parse(String eqText){
         int pos = eqText.length() - 1;
@@ -42,7 +38,7 @@ public class FastEquationParser {
         while(pos < terminatingPos) {
             while (pos < terminatingPos && eqText.charAt(pos) != ' ')
                 pos++;
-            values.add(Integer.valueOf(eqText.substring(startPos, pos)));
+            values.add(getPositiveNumber(eqText, startPos, pos));
             startPos = pos + 3;
             pos = startPos;
         }
@@ -50,6 +46,20 @@ public class FastEquationParser {
         return new ParsedEquation(values.toArray(new Integer[0]), res);
     }
 
+    public List<ParsedEquation> parse(List<String> equations){
+        List<ParsedEquation> parsedEquations = new ArrayList<>();
+        int eqI = 0;
+        try {
+            for (eqI = 0; eqI < equations.size(); eqI++) {
+                ParsedEquation eq = parse(equations.get(eqI));
+                parsedEquations.add(eq);
+            }
+            return parsedEquations;
+        }catch(Exception ex){
+            System.out.println("error in parsing equation "+eqI);
+            throw new RuntimeException("Error in parsing");
+        }
+    }
 
     public List<ParsedEquation> parse(String[] equations){
         List<ParsedEquation> parsedEquations = new ArrayList<>();

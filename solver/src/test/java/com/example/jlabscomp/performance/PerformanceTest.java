@@ -51,7 +51,7 @@ public class PerformanceTest {
 
 
     @Test
-    @Ignore
+    //@Ignore
     public void testPerformance(){
         DiagnosticMetrics metrics = new DiagnosticMetrics();
 
@@ -62,7 +62,6 @@ public class PerformanceTest {
 
             //solve
             List<String[]> answers = eqProc.solveToListConcurrent(equations, metrics);
-            //String answers = eqProc.solveToTextConcurrent(equations, metrics);
             //List<String[]> answers = eqProc.solveToList(equations, metrics);
 
             msTotal = metrics.saveElapsedForMetric("total", msTotal);
@@ -74,9 +73,8 @@ public class PerformanceTest {
 
         System.out.println();
         metrics.printPercentiles(80);
-        //parsing 24
-        //solutiontimes p95: 145
-        //convertionTimes p95: 13
+        //parseAndSolve p80: 94
+
     }
 
 

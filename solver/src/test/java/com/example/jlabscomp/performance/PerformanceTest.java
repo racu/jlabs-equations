@@ -68,7 +68,7 @@ public class PerformanceTest {
             System.out.println("total: " + msTotal + " ms");
 
             //verifier.verify(answersToSubmit, parser.parse(equations));
-            verifier.verify(answers, parser.parse(equations));
+            //verifier.verify(answers, parser.parse(equations));
         }
 
         System.out.println();

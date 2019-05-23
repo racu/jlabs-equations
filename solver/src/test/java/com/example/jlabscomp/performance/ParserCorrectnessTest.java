@@ -32,7 +32,6 @@ public class ParserCorrectnessTest {
     FastEquationParser parser;
 
     @Test
-    @Ignore
     public void testCorrectness(){
         String[] equations = store.load(performanceStorePath);
         List<ParsedEquation> equations1 = oldParser.parse(equations);

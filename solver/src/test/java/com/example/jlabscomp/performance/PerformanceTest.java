@@ -51,7 +51,7 @@ public class PerformanceTest {
 
 
     @Test
-    //@Ignore
+    @Ignore
     public void testPerformance(){
         DiagnosticMetrics metrics = new DiagnosticMetrics();
 

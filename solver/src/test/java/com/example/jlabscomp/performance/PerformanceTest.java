@@ -25,7 +25,7 @@ import java.util.List;
 @ActiveProfiles("test")
 public class PerformanceTest {
 
-    String performanceStorePath = "E:\\utils\\playground\\algos\\jlabsedovx2\\cases\\performance1\\case_1353454811441596726";
+    String performanceStorePath = "..\\sampleCases\\case_8676608284959984753";
 
     @Autowired
     LocalTestCasesStorage store;
@@ -51,7 +51,7 @@ public class PerformanceTest {
 
 
     @Test
-    @Ignore
+    //@Ignore
     public void testPerformance(){
         DiagnosticMetrics metrics = new DiagnosticMetrics();
 
@@ -61,8 +61,8 @@ public class PerformanceTest {
             long msTotal =  metrics.startTimer();
 
             //solve
-            //List<String[]> answers = eqProc.solveToListConcurrent(equations, metrics);
-            List<String[]> answers = eqProc.solveToList(equations, metrics);
+            List<String[]> answers = eqProc.solveToListConcurrent(equations, metrics);
+            //List<String[]> answers = eqProc.solveToList(equations, metrics);
 
             msTotal = metrics.saveElapsedForMetric("total", msTotal);
             System.out.println("total: " + msTotal + " ms");

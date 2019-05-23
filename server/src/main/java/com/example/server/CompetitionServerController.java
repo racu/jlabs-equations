@@ -27,7 +27,7 @@ public class CompetitionServerController {
     List<ParsedEquation> parsedEquations;
 
 
-    String caseFilePath = "E:\\utils\\playground\\algos\\jlabsedovx2\\cases\\performance1\\case_1353454811441596726";
+    String caseFilePath = "E:\\utils\\playground\\algos\\jlabsedovx2\\jlabscomp\\sampleCases\\case_8676608284959984753";
 
     //String caseFilePath167MB = "E:\\utils\\playground\\algos\\jlabsedovx2\\cases\\huge\\case_7919375993971561685";
 

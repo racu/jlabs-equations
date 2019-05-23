@@ -56,7 +56,7 @@ public class PerformanceTest {
         DiagnosticMetrics metrics = new DiagnosticMetrics();
 
         String[] equations = store.load(performanceStorePath);
-        for(int testCaseInd=0; testCaseInd < 100; testCaseInd++) {
+        for(int testCaseIteration=0; testCaseIteration < 100; testCaseIteration++) {
 
             long msTotal =  metrics.startTimer();
 
